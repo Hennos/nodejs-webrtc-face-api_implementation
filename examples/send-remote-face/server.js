@@ -150,4 +150,10 @@ function beforeOffer(peerConnection) {
   };
 }
 
-module.exports = { beforeOffer };
+function broadcastStream(peerConnection, stream = []) {
+  stream.forEach(track => {
+    peerConnection.addTransceiver(track);
+  });
+}
+
+module.exports = { beforeOffer, broadcastStream };

@@ -20,7 +20,6 @@
   "dependencies": {
     "@tensorflow/tfjs": "^1.2.9",
     "@tensorflow/tfjs-core": "^1.2.9",
-    "@tensorflow/tfjs-node": "^1.2.9",
     "Scope": "github:kevincennis/Scope",
     "body-parser": "^1.18.3",
     "browserify-middleware": "^8.1.1",
