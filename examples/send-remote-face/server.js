@@ -28,6 +28,12 @@ const height = 480;
 
 function beforeOffer(peerConnection) {
   const source = new RTCVideoSource();
+  Object.defineProperty(this, "broadcastedSource", {
+    get() {
+      return source;
+    }
+  });
+
   const track = source.createTrack();
   const transceiver = peerConnection.addTransceiver(track);
   const sink = new RTCVideoSink(transceiver.receiver.track);
@@ -150,10 +156,14 @@ function beforeOffer(peerConnection) {
   };
 }
 
-function broadcastStream(peerConnection, stream = []) {
-  stream.forEach(track => {
-    peerConnection.addTransceiver(track);
-  });
+function broadcastStream(peerConnection, source) {
+  const track = source.createTrack();
+  peerConnection.addTransceiver(track);
+  const { close } = peerConnection;
+  peerConnection.close = function() {
+    track.stop();
+    return close.apply(this, arguments);
+  };
 }
 
 module.exports = { beforeOffer, broadcastStream };
